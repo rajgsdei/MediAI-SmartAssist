@@ -1,0 +1,93 @@
+@import url("_variables.css");
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-color);
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    padding: 10px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Main Content Styles */
+main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-primary {
+    min-width: 100px;
+    margin-top: 1rem;
+    height: 30px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-primary:hover{
+    background-color: var(--hover-color);
+}
