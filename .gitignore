@@ -55,3 +55,4 @@ htmlcov/
 .cache
 coverage.xml
 *.cover
+/staticfiles

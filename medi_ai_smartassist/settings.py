@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'patient_management',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -85,11 +86,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'medi_ai_smartassist.wsgi.application'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'  
 STATICFILES_DIRS = [
-    BASE_DIR / 'patient_management/static',
+    os.path.join(BASE_DIR, 'patient_management', 'static'), 
 ]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -148,3 +149,6 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'patient_management.MediAIUser'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

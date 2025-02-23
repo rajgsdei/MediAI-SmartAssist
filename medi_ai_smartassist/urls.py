@@ -20,10 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('patient_management.urls.patient_urls')), 
-    path('login/', include('patient_management.urls.auth_urls')),
+    # path('django-admin/', admin.site.urls),  # Remove if not using Django's admin
+    path('auth/', include('patient_management.urls.auth_urls')),
+    path('admin/', include('patient_management.urls.admin_urls')),
 ]
 
 if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

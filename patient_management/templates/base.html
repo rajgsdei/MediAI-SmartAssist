@@ -8,21 +8,42 @@
     {% load static %}
     {% block child_template_css %}{% endblock %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    <link rel="icon" href="{% static 'image/icon.png' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <!-- Main Container -->
-    <div class="container">
+    <div class="main-container">
         <!-- Header Section -->
+        {% if user.is_authenticated %}
         <header>
             <nav>
-                <ul class="nav-links">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'patients' %}">Patients</a></li>
-                </ul>
+                <div class="col-1 nav-brand">
+                    <div class="nav-brand">
+                        <img src="{% static 'image/logo.png' %}" alt="MediAI-SmartAssist Logo" class="nav-logo">
+                    </div>
+                </div>
+                <div class="col-10">
+                    <ul class="nav-links">
+                        {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                        {% else %}
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'patients' %}">Patients</a></li>
+                        {% endif %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+                </div>
             </nav>
         </header>
+        {% endif %}
 
         <!-- Main Content Section (This will be replaced by child templates) -->
         <main>
@@ -30,6 +51,8 @@
             <!-- Child template content will be inserted here -->
             {% endblock %}
         </main>
+
+        {% block scripts %}{% endblock %}
 
         <!-- Footer Section -->
         <footer>

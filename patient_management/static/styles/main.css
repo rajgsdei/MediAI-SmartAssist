@@ -15,7 +15,7 @@ body {
     line-height: 1.6;
 }
 
-.container {
+.main-container {
     padding: 20px;
 }
 
@@ -32,10 +32,16 @@ nav {
     align-items: center;
 }
 
+h1, h2, h3, h4, h5, h6, label {
+    color: var(--primary-color);
+}
+
 .nav-links {
     list-style-type: none;
     display: flex;
     gap: 20px;
+    display: contents;
+    text-align: center;
 }
 
 .nav-links li {
@@ -53,10 +59,21 @@ nav {
     color: var(--accent-color);
 }
 
+a {
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
 /* Main Content Styles */
 main {
     background-color: #fff;
-    padding: 20px;
+    padding: 12px 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -81,13 +98,93 @@ footer p {
 .btn-primary {
     min-width: 100px;
     margin-top: 1rem;
-    height: 30px;
-    background-color: var(--primary-color);
+    height: 40px;
+    background-color: var(--accent-color);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    text-align: center;
 }
-.btn-primary:hover{
-    background-color: var(--hover-color);
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--hover-color) !important;
+}
+
+.logout-btn {
+    color: #fff;
+    padding-left: 1.8rem;
+}
+
+.alert-danger {
+    text-align: center;
+    font-size: smaller;
+    background-color: bisque;
+    color: var(--primary-color);
+}
+
+
+.text-center {
+    text-align: center;
+    padding-top: 16px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+}
+
+.nav-logo {
+    height: 45px;
+    width: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+thead tr {
+    text-align: left;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+
+table tbody tr.active-row {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+input[type="checkbox"] {
+    width: 40px;
+    cursor: pointer;
+    accent-color: var(--accent-color); 
 }

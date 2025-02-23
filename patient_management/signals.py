@@ -2,6 +2,7 @@ from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.utils import timezone
 import os
 
 User = get_user_model()
@@ -13,18 +14,22 @@ def create_default_admin(sender, **kwargs):
         admin_exists = User.objects.filter(username=os.getenv('ADMIN_USERNAME')).exists()
         
         if not admin_exists:
-            # Create admin user
+            # Create admin user with all fields from your model
             admin_user = User.objects.create_superuser(
                 username=os.getenv('ADMIN_USERNAME'),
                 email=os.getenv('ADMIN_EMAIL'),
-                password=os.getenv('ADMIN_PASSWORD'),  # You should change this in production
+                password=os.getenv('ADMIN_PASSWORD'),
+                first_name=os.getenv('ADMIN_FIRST_NAME', 'System'),
+                last_name=os.getenv('ADMIN_LAST_NAME', 'Administrator'),
                 is_staff=True,
-                is_superuser=True
+                is_superuser=True,
+                is_active=True
             )
             
-            # Add additional fields
-            admin_user.phone_number = os.getenv('ADMIN_PHONE')
-            admin_user.specialization = 'System Administrator'
+            admin_user.address = os.getenv('ADMIN_ADDRESS', 'Main Office')
+            admin_user.created_on = timezone.now()
+            admin_user.updated_on = timezone.now()
+            admin_user.is_deleted = False
             admin_user.save()
             
             print('Default admin user created successfully!')
