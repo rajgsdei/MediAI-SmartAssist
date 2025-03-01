@@ -1,0 +1,43 @@
+{% extends 'patient/patient_base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% block child_template_css %}
+    <link rel="stylesheet" href="{% static 'styles/patient.css' %}">
+{% endblock %}
+
+{% block staff_content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3>{{ view_patient.first_name }} {{ view_patient.last_name }}</h3>
+            <div>
+                <a href="{% url 'edit_patient' view_patient.id %}" class="btn btn-primary">Edit Patient</a>
+                <a href="{% url 'patient_management' %}" class="btn btn-secondary">Back to Patients </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tbody>
+                        {% for field, value in patient_details.items %}
+                        <tr>
+                            <th style="width: 200px">{{ field }}</th>
+                            <td>
+                                {% if value == True %}
+                                    <span class="badge bg-success">Yes</span>
+                                {% elif value == False %}
+                                    <span class="badge bg-danger">No</span>
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

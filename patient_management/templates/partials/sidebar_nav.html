@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="">
+    <div class="sidebar-logo-container">
+        <img src="{% static 'image/logo.png' %}" alt="Logo" class="sidebar-logo">
+    </div>
+    <hr/>
+    <ul class="sidebar-nav">
+        {% if user.is_superuser %}
+        <li class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+            <a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">
+            <a href="{% url 'user_management' %}"><i class="fas fa-users"></i> Users</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'appointments' %}active{% endif %}">
+            <a href=""><i class="fas fa-calendar"></i> Appointments</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'medical_records' %}active{% endif %}">
+            <a href=""><i class="fas fa-file-medical"></i> Medical Records</a>
+        </li>
+        {% else %}
+        <li class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a>
+        </li>
+        <li class="{% if 'patient' in request.path %}active{% endif %}">
+            <a href="{% url 'patient_management' %}"><i class="fas fa-users"></i> Patient Management</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+

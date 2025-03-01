@@ -7,11 +7,14 @@
     <title>MediAI-SmartAssist</title>
     {% load static %}
     {% block child_template_css %}{% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
     <link rel="icon" href="{% static 'image/icon.png' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -20,37 +23,122 @@
         <!-- Header Section -->
         {% if user.is_authenticated %}
         <header>
-            <nav>
+            <div class="row">
                 <div class="col-1 nav-brand">
                     <div class="nav-brand">
                         <img src="{% static 'image/logo.png' %}" alt="MediAI-SmartAssist Logo" class="nav-logo">
                     </div>
                 </div>
                 <div class="col-10">
-                    <ul class="nav-links">
-                        {% if user.is_authenticated %}
-                        {% if user.is_superuser %}
-                        <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-                        {% else %}
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'patients' %}">Patients</a></li>
-                        {% endif %}
-                        {% endif %}
-                    </ul>
+                    <nav>
+                        <ul class="nav-links">
+                            {% if user.is_authenticated %}
+                            {% if user.is_superuser %}
+                            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                            {% else %}
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'patient_management' %}">Patients</a></li>
+                            {% endif %}
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
-                <div class="col-1">
-                    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+                <div class="col-1 logout-div">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                            {{user.first_name}}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-item">Hi, {{ user.first_name|default:user.username }}
+                                <span class="text-muted">
+                                    (Loggin As: {% if user.is_superuser %}Admin{% else %}Staff{% endif %})
+                                </span>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </div>
                 </div>
-            </nav>
+            </div>
         </header>
         {% endif %}
 
         <!-- Main Content Section (This will be replaced by child templates) -->
         <main>
-            {% block content %}
-            <!-- Child template content will be inserted here -->
-            {% endblock %}
+            <div class="{% if user.is_authenticated %}view-contentainer{% endif %}">
+                {% if user.is_authenticated %}
+                <div class="sidebar">
+                    <div id="sidebar">
+                        {% include 'partials/sidebar_nav.html' %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="main-content">
+
+                    {% block content %}
+                    <!-- Child template content will be inserted here -->
+                    {% endblock %}
+                </div>
+            </div>
+
         </main>
+        <!-- Add jQuery if not already included -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Add Toastr JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+        <script>
+            // Configure Toastr
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000"
+            };
+
+            {% if messages %}
+            {% autoescape off %}
+            {% for message in messages %}
+            {% if message.tags == 'success' %}
+            toastr.success("{{ message|escapejs }}");
+            {% elif message.tags == 'error' %}
+            toastr.error("{{ message|escapejs }}");
+            {% elif message.tags == 'warning' %}
+            toastr.warning("{{ message|escapejs }}");
+            {% elif message.tags == 'info' %}
+            toastr.info("{{ message|escapejs }}");
+            {% else %}
+            toastr.info("{{ message|escapejs }}");
+            {% endif %}
+            {% endfor %}
+            {% endautoescape %}
+            {% endif %}
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                // loadUsers();
+
+                // function loadUsers() {
+                //     $.ajax({
+                //         url: '{% url "load_sidebar" %}',
+                //         success: function (response) {
+                //             $('#sidebar').html(response);
+                //         },
+                //         error: function (e) {
+                //             console.log(e.responseText);
+                //         }
+                //     });
+                // }
+            });
+        </script>
+
+
 
         {% block scripts %}{% endblock %}
 

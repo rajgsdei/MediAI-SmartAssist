@@ -95,13 +95,28 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': os.getenv('DB_NAME'),
+#         'ENFORCE_SCHEMA': True,
+#         'CLIENT': {
+#             'host': os.getenv('DB_HOST'),
+#         }
+#     }
+# }
+
 DATABASES = {
-   'default': {
-   'ENGINE': 'djongo',
+    'default': {
+        'ENGINE': 'djongo',
         'NAME': os.getenv('DB_NAME'),
         'ENFORCE_SCHEMA': True,
         'CLIENT': {
-            'host': os.getenv('DB_HOST'),
+            'host': os.getenv('MONGODB_URI'),
+            'authMechanism': 'SCRAM-SHA-1',
+            'authSource': 'admin',
+            'tlsAllowInvalidCertificates': True,
+            'ssl': True,
         }
     }
 }
@@ -152,3 +167,5 @@ AUTH_USER_MODEL = 'patient_management.MediAIUser'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = 'user_login'

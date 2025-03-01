@@ -1,0 +1,98 @@
+<div class="table-container">
+    <div class="div-loader"></div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th class="sortable" data-sort="full_name">
+                        Patient Name
+                        {% if sort == 'full_name' %}
+                            <i class="fas fa-sort-{{ order }}"></i>
+                        {% else %}
+                            <i class="fas fa-sort"></i>
+                        {% endif %}
+                    </th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th class="sortable" data-sort="created_at">
+                        Created On
+                        {% if sort == 'created_at' %}
+                            <i class="fas fa-sort-{{ order }}"></i>
+                        {% else %}
+                            <i class="fas fa-sort"></i>
+                        {% endif %}
+                    </th>
+                    <th class="action-th">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.full_name }}</td>
+                    <td>{{ patient.date_of_birth|date:"M d, Y" }}</td>
+                    <td>{{ patient.get_gender_display }}</td>
+                    <td>{{ patient.phone_number|default:"-" }}</td>
+                    <td>{{ patient.email|default:"-" }}</td>
+                    <td>{{ patient.created_at|date:"M d, Y h:i A" }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'view_patient' patient.id %}" class="btn btn-sm btn-info" title="View">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'edit_patient' patient.id %}" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete"
+                                    onclick="confirmDelete('{{ patient.id }}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No patients found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if patients.has_other_pages %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if patients.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="#" data-page="1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" data-page="{{ patients.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+
+        {% for num in patients.paginator.page_range %}
+            {% if patients.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > patients.number|add:'-3' and num < patients.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="#" data-page="{{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if patients.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="#" data-page="{{ patients.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" data-page="{{ patients.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %} 

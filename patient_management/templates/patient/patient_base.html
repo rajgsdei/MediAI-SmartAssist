@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block child_template_css %}
+    <link rel="stylesheet" href="{% static 'styles/patient.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="staff-container">
+        <div class="staff-content">
+            {% block staff_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

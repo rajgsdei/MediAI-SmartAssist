@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block child_template_css %}
+<link rel="stylesheet" href="{% static 'styles/admin.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="admin-content-header">
+            <h3>Welcome, {{ request.user.first_name }} {{ request.user.last_name }}</h3>
+        </div>
+        {% block admin_content %}
+        <!-- Default dashboard content -->
+        <p>Select an option from the sidebar to get started.</p>
+        {% endblock %}
+
+    </div>
+
+{% endblock %}

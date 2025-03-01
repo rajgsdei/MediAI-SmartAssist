@@ -45,26 +45,38 @@ def admin_login(request):
 
 
 def user_login(request):
-
-    x = os.getenv('DB_NAME');
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         try:
-            admin = MediAIUser.objects.get(username=username, password=password, deleted_on__isnull=True)
+            user = MediAIUser.objects.get(
+                username=username,
+                is_active=True,
+                deleted_on__isnull=True
+            )
             
-            return redirect('admin_dashboard')
+            if check_password(password, user.password):
+                from django.contrib.auth import login
+                login(request, user)
+                return redirect('root')
+            else:
+                messages.error(request, "Invalid password.")
+                return redirect('auth_login')
 
         except MediAIUser.DoesNotExist:
             messages.error(request, "Invalid username or password.")
-            return redirect('user_login')  # Redirect back to login page
+            return redirect('auth_login')
+        
+        except DatabaseError as e:
+            messages.error(request, "Database connection error. Please try again later.")
+            return redirect('auth_login')
 
     return render(request, 'auth/user_login.html')
 
 
 @login_required
 def logout_view(request):
+    is_admin = request.user.is_superuser
     logout(request)
-    messages.success(request, "You have been successfully logged out.")
-    return redirect('admin_login')
+    return redirect('root')

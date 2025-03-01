@@ -18,9 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
+
+def redirect_to_auth(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('admin_dashboard')
+        return redirect('home')
+    return redirect('auth_login')
 
 urlpatterns = [
-    # path('django-admin/', admin.site.urls),  # Remove if not using Django's admin
+    path('', redirect_to_auth, name='root'),
+    path('home/', include('patient_management.urls.patient_urls')),
     path('auth/', include('patient_management.urls.auth_urls')),
     path('admin/', include('patient_management.urls.admin_urls')),
 ]
