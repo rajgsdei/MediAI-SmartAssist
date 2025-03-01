@@ -58,4 +58,4 @@ coverage.xml
 /staticfiles
 
 # Env file
-*.development.env
+environment.development.env
