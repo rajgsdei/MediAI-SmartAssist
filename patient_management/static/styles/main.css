@@ -211,12 +211,28 @@ table tbody tr.active-row {
     margin-top: 0 !important;
 }
 
+.table  th {
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
 input[type="checkbox"] {
-    width: 22px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     accent-color: var(--accent-color);
     position: relative;
     margin-right: 12px;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 
@@ -282,12 +298,12 @@ input[type="checkbox"] {
 
 .view-contentainer {
     display: flex;
-    min-height: calc(100vh - 140px); /* Adjust based on header/footer height */
+    min-height: calc(100vh - 140px); 
 }
 
 .sidebar-container {
     display: flex;
-    min-height: calc(100vh - 140px); /* Adjust based on header/footer height */
+    min-height: calc(100vh - 140px); 
 }
 
 .sidebar {
@@ -335,4 +351,24 @@ input[type="checkbox"] {
 
 .sidebar-logo{
     max-width: 100px;
+}
+
+
+.main-content {
+    flex: 1;
+    width: 100%;
+    padding: 12px;
+}
+
+.input-group-text,
+.search-textbox{
+    height: 40px;
+}
+
+.top-margin{
+    margin-top: 10px;
+}
+
+.edit-btn{
+    margin: 0 2px !important;
 }

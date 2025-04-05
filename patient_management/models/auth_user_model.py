@@ -15,6 +15,14 @@ class MediAIUser(AbstractUser):
     
     is_deleted = models.BooleanField(default=False)
     last_login_ip = models.GenericIPAddressField(null=True, blank=True)
+
+    
+    role = models.CharField(max_length=10, choices=[
+        ('Staff', 'Staff'),
+        ('Doctor', 'Doctor'),
+        ('Patient', 'Patient'), 
+        ('Admin', 'Admin'),
+    ], default='staff')
     
     class Meta:
         db_table = 'medi_ai_users'

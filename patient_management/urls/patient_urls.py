@@ -1,5 +1,6 @@
 from django.urls import path
 
+from patient_management.views.medication_views import MedicationView
 from patient_management.views.user_management_views import load_sidebar
 from ..views import patient_views, staff_views
 
@@ -12,4 +13,9 @@ urlpatterns = [
     path('patients/<uuid:patient_id>/delete/', patient_views.delete_patient, name='delete_patient'),
     path('load_sidebar/', load_sidebar, name='load_sidebar'),
     path('dashboard/', patient_views.dashboard, name='dashboard'),
+  
+    path('medications/', MedicationView.as_view(), name='medication'),
+    path('medications/<uuid:medication_id>/detail/', MedicationView.as_view(), name='medication_detail'),
+    path('medications/<uuid:medication_id>/update/', MedicationView.as_view(), name='medication_update'),
+    path('medications/<uuid:medication_id>/delete/', MedicationView.as_view(), name='medication_delete'),
 ]

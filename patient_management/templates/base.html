@@ -7,11 +7,12 @@
     <title>MediAI-SmartAssist</title>
     {% load static %}
     {% block child_template_css %}{% endblock %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
     <link rel="icon" href="{% static 'image/icon.png' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -43,23 +44,22 @@
                         </ul>
                     </nav>
                 </div>
+                
                 <div class="col-1 logout-div">
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                        <a href="#" class="dropdown-toggle user-menu" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user-circle fa-lg"></i>
                             {{user.first_name}}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-item">Hi, {{ user.first_name|default:user.username }}
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><div class="dropdown-item">Hi, {{ user.first_name|default:user.username }}
                                 <span class="text-muted">
                                     (Loggin As: {% if user.is_superuser %}Admin{% else %}Staff{% endif %})
                                 </span>
-                            </div>
-
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                        </div>
+                            </div></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

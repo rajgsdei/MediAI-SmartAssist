@@ -27,6 +27,7 @@ def create_default_admin(sender, **kwargs):
             )
             
             admin_user.address = os.getenv('ADMIN_ADDRESS', 'Main Office')
+            admin_user.role = os.getenv('ADMIN_ROLE', 'Admin')
             admin_user.created_on = timezone.now()
             admin_user.updated_on = timezone.now()
             admin_user.is_deleted = False

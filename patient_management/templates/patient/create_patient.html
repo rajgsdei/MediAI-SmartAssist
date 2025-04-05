@@ -119,6 +119,31 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="medications">Medications</label>
+                            {{ form.medications|add_class:"form-control" }}
+                            {% if form.medications.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.medications.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="allergies">Allergies</label>
+                            {{ form.allergies|add_class:"form-control" }}
+                            {% if form.allergies.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.allergies.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger">
                         {{ form.non_field_errors }}

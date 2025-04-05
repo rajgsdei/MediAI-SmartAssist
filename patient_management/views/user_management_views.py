@@ -87,7 +87,11 @@ def create_user(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False) 
+            if form.cleaned_data['role'].lower() == 'admin':
+                user.is_superuser = True
+                user.is_staff = True 
+            user.save()
             messages.success(request, f"User {user.username} created successfully!")
             return redirect('user_management')
     else:

@@ -9,6 +9,9 @@ from django.utils import timezone
 from patient_management.forms.patient.patient_form import PatientForm
 from patient_management.models.auth_user_model import MediAIUser
 from ..models.patient_model import Patient
+from ..models.insurance_model import Insurance
+from ..models.medication_model import Medication
+from ..models.allergy_model import Allergy
 
 
 # Admin login view
@@ -69,12 +72,26 @@ def create_patient(request):
             patient = form.save(commit=False)
             patient.is_active = True 
             patient.save()
+
+            form.save_m2m()
+
             messages.success(request, 'Patient created successfully.')
             return redirect('patient_management')
     else:
         form = PatientForm()
-    
-    return render(request, 'patient/create_patient.html', {'form': form})
+
+    doctors = MediAIUser.objects.all()
+    insurances = Insurance.objects.all()
+    medications = Medication.objects.all()
+    allergies = Allergy.objects.all()
+
+    return render(request, 'patient/create_patient.html', {
+        'form': form,
+        'doctors': doctors,
+        'insurances': insurances,
+        'medications': medications, 
+        'allergies': allergies, 
+    })
 
 @login_required
 def edit_patient(request, patient_id):

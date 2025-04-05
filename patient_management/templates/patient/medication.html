@@ -1,0 +1,128 @@
+{% extends 'patient/patient_base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+{% block child_template_css %}
+    <link rel="stylesheet" href="{% static 'styles/shared_templates.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="medication-management">
+    {% csrf_token %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>Medications Management</h4>
+        <div class="d-flex">
+            <div class="search-box me-3">
+                <div class="input-group">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    <input type="text" id="searchInput" class="form-control search-textbox" 
+                           placeholder="Search medications..." value="{{ request.GET.search|default:'' }}">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="createMedication">
+                <i class="fas fa-plus"></i> Add Medication
+            </button>
+        </div>
+    </div>
+
+    <div id="medicationTableContainer">
+        {% include 'shared/common_table.html' with items=medications columns=columns %}
+    </div>
+</div>
+
+{% include 'shared/shared_modal.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/crud_operations.js' %}"></script>
+<script>
+$(document).ready(function() {
+    new SharedCRUD({
+        baseUrl: '{% url "medication" %}',
+        entityName: 'Medication',
+        containerId: 'medicationTableContainer',
+        columns: {{ columns_json|safe }},
+        urls: {
+            delete: function(id) { return `${id}/delete/`; },
+            detail: function(id) { return `${id}/detail/`; }
+        },
+        formFields: [
+            { 
+                name: 'name', 
+                label: 'Medication Name', 
+                type: 'text', 
+                required: true 
+            },
+            { 
+                name: 'dosage', 
+                label: 'Dosage', 
+                type: 'text', 
+                required: false 
+            },
+            { 
+                name: 'prescribed_by', 
+                label: 'Prescribed By', 
+                type: 'text', 
+                required: false 
+            },
+            { 
+                name: 'start_date', 
+                label: 'Start Date', 
+                type: 'date', 
+                required: false 
+            },
+            { 
+                name: 'end_date', 
+                label: 'End Date', 
+                type: 'date', 
+                required: false 
+            },
+            { 
+                name: 'taken_for', 
+                label: 'Taken For', 
+                type: 'text', 
+                required: false 
+            },
+            { 
+                name: 'strength', 
+                label: 'Strength', 
+                type: 'text', 
+                required: false 
+            },
+            { 
+                name: 'form_of_medication', 
+                label: 'Form of Medication', 
+                type: 'select',
+                required: false,
+                options: [
+                    { value: 'tablet', label: 'Tablet' },
+                    { value: 'capsule', label: 'Capsule' },
+                    { value: 'liquid', label: 'Liquid' },
+                    { value: 'injection', label: 'Injection' },
+                    { value: 'inhaler', label: 'Inhaler' },
+                    { value: 'patch', label: 'Patch' },
+                    { value: 'other', label: 'Other' }
+                ]
+            },
+            { 
+                name: 'instructions', 
+                label: 'Instructions', 
+                type: 'text',
+                required: false
+            },
+            {
+                name: 'is_active',
+                label: 'Active',
+                type: 'checkbox',
+                required: false
+            }
+        ]
+    });
+});
+</script>
+{% endblock %}

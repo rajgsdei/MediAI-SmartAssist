@@ -21,6 +21,7 @@ class CreateUserForm(UserCreationForm):
             'first_name',
             'last_name',
             'phone_number',
+            'role', 
             'is_active',
         ]
 
@@ -46,4 +47,7 @@ class CreateUserForm(UserCreationForm):
         })
         self.fields['phone_number'].widget.attrs.update({
             'placeholder': 'Enter phone number'
+        })
+        self.fields['role'].widget.attrs.update({
+            'placeholder': 'Select role'
         })
