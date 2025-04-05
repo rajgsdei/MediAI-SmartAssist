@@ -8,6 +8,7 @@ from django.views import View
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 import json
+from django.db.models import Q
 
 class MedicationCRUDView(GenericCRUDView):
     model = Medication
@@ -80,6 +81,25 @@ class MedicationView(LoginRequiredMixin, View):
     
     def get_list_context(self):
         medications = Medication.objects.filter(is_active=True)
+        
+        # Handle search
+        search_term = self.request.GET.get('search', '')
+        if search_term and search_term.strip() and len(search_term.strip()) >= 3:  
+            search_term = search_term.strip()
+            medications = medications.filter(
+                Q(name__icontains=search_term) |
+                Q(dosage__icontains=search_term) |
+                Q(prescribed_by__icontains=search_term)
+            )
+            
+        # Handle sorting
+        sort_field = self.request.GET.get('sort')
+        sort_order = self.request.GET.get('order', 'asc')
+        
+        if sort_field:
+            order_prefix = '-' if sort_order == 'desc' else ''
+            medications = medications.order_by(f"{order_prefix}{sort_field}")
+            
         print(f"Found {medications.count()} active medications")
         return {
             'medications': medications,  
@@ -88,7 +108,8 @@ class MedicationView(LoginRequiredMixin, View):
                 {'field': 'dosage', 'label': 'Dosage', 'sortable': False},
                 {'field': 'start_date', 'label': 'Start Date', 'sortable': True},
                 {'field': 'end_date', 'label': 'End Date', 'sortable': True},
-                {'field': 'prescribed_by', 'label': 'Prescribed By', 'sortable': True}
+                {'field': 'prescribed_by', 'label': 'Prescribed By', 'sortable': False},
+                {'field': 'taken_for', 'label': 'Taken For', 'sortable': False}
             ]
         }
     

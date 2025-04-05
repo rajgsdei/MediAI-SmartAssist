@@ -20,6 +20,26 @@ class SharedCRUD {
         // Create button
         $(`#create${this.options.entityName}`).on('click', () => this.showModal('create'));
 
+        // Search input with debounce
+        let searchTimeout;
+        $('#searchInput').on('input', (e) => {
+            clearTimeout(searchTimeout);
+            const searchTerm = e.target.value.trim();
+            
+            // If empty, show all records immediately
+            if (!searchTerm) {
+                this.loadData({});
+                return;
+            }
+            
+            // Otherwise wait and check for 3+ characters
+            searchTimeout = setTimeout(() => {
+                if (searchTerm.length >= 3) {
+                    this.loadData({ search: searchTerm });
+                }
+            }, 300);
+        });
+
         // Table actions
         $(document).on('click', '.view-btn', (e) => {
             const id = $(e.currentTarget).data('id');
@@ -38,12 +58,6 @@ class SharedCRUD {
 
         // Save entity
         $('#saveEntity').on('click', () => this.saveEntity());
-
-        // Search functionality
-        $('#searchInput').on('input', (e) => {
-            const searchTerm = e.target.value.trim();
-            this.loadData({ search: searchTerm });
-        });
 
         // Sort functionality
         $(document).on('click', '.sortable', (e) => {
@@ -128,20 +142,23 @@ class SharedCRUD {
     }
 
     loadData(params = {}) {
-        params.ajax = true;  // Always request partial content
+        params.ajax = true;
         const $container = $(`#${this.options.containerId}`);
         const $loader = $container.find('.div-loader');
         
+        // Show loader
         $loader.show();
+        
         $.get(this.options.baseUrl, params)
             .done(response => {
                 $container.html(response);
             })
-            .fail(() => {
-                alert('Error loading data');
+            .fail(xhr => {
+                this.error(xhr);
             })
             .always(() => {
-                $loader.hide();
+                // Hide loader after a small delay to prevent flickering
+                setTimeout(() => $loader.hide(), 300);
             });
     }
 
@@ -272,6 +289,21 @@ class SharedCRUD {
     }
 
     handleSort(column) {
-        this.loadData({ sort: column });
+        const currentOrder = this.currentOrder || 'asc';
+        const currentSort = this.currentSort;
+        
+        // Toggle order if clicking the same column
+        if (column === currentSort) {
+            this.currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.currentOrder = 'asc';
+        }
+        this.currentSort = column;
+        
+        // Load data with sort parameters
+        this.loadData({
+            sort: column,
+            order: this.currentOrder
+        });
     }
 }
