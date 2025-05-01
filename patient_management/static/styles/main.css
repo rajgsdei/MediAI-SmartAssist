@@ -1,6 +1,6 @@
 @import url("_variables.css");
 
-
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -81,7 +81,6 @@ a:hover {
 /* Main Content Styles */
 main {
     background-color: #fff;
-    padding: 12px 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -138,7 +137,6 @@ footer p {
     padding-bottom: 0px;
 }
 
-
 .text-center {
     text-align: center;
     padding-top: 16px;
@@ -170,7 +168,6 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-
 thead tr {
     text-align: left;
 }
@@ -191,7 +188,6 @@ table tbody tr:nth-of-type(even) {
 table tbody tr:last-of-type {
     border-bottom: 2px solid var(--primary-color);
 }
-
 
 table tbody tr.active-row {
     font-weight: bold;
@@ -216,18 +212,25 @@ table tbody tr.active-row {
     background-color: #e9ecef;
     border-color: #dee2e6;
 }
+
 .table thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #dee2e6;
 }
 
 input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
-    accent-color: var(--accent-color);
     position: relative;
     margin-right: 12px;
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+    padding: 0;
 }
 
 input[type="checkbox"]:checked {
@@ -235,6 +238,17 @@ input[type="checkbox"]:checked {
     border-color: var(--accent-color);
 }
 
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 6px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
 
 @media (min-width: 1200px) {
 
@@ -352,7 +366,6 @@ input[type="checkbox"]:checked {
 .sidebar-logo{
     max-width: 100px;
 }
-
 
 .main-content {
     flex: 1;

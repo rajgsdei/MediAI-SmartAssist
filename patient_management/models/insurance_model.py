@@ -19,5 +19,8 @@ class Insurance(models.Model):
     is_active = models.BooleanField(default=True)
     deleted_on = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        db_table = 'insurance'
+
     def __str__(self):
         return f"{self.provider_name} - {self.policy_number}"

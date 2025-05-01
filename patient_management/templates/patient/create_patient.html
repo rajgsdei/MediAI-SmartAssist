@@ -2,6 +2,62 @@
 
 {% load static %}
 {% load widget_tweaks %}
+
+{% block extra_css %}
+<style>
+    .dropdown-menu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .dropdown-item {
+        padding: 0.25rem 1rem;
+    }
+    .dropdown-item label {
+        width: 100%;
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+    .dropdown-toggle::after {
+        float: right;
+        margin-top: 8px;
+    }
+    .medication-dropdown {
+        width: 100%;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .selected-items {
+        margin-top: 0.5rem;
+    }
+    .selected-item {
+        display: inline-block;
+        background: #e9ecef;
+        padding: 0.2rem 0.5rem;
+        margin: 0.2rem;
+        border-radius: 3px;
+    }
+    .remove-item {
+        margin-left: 5px;
+        cursor: pointer;
+        color: #dc3545;
+    }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container--default .select2-selection--multiple {
+        border: 1px solid #ced4da;
+        min-height: 38px;
+    }
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+</style>
+{% endblock %}
+
 {% block staff_content %}
 <div class="create-patient-form">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -159,4 +215,17 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#id_medications').select2({
+            theme: 'default',
+            placeholder: 'Select medications...',
+            allowClear: true,
+            width: '100%'
+        });
+    });
+</script>
+{% endblock %}

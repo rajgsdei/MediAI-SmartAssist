@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Allergies{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Allergies</h2>
+                <button id="createAllergy" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Allergy
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search allergies...">
+                    </div>
+                    <div id="allergyTableContainer">
+                        {% include 'shared/common_table.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'shared/shared_modal.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/crud_operations.js' %}"></script>
+<script>
+$(document).ready(function() {
+    new SharedCRUD({
+        baseUrl: '{% url "allergies" %}',
+        entityName: 'Allergy',
+        containerId: 'allergyTableContainer',
+        columns: {{ columns_json|safe }},
+        urls: {
+            delete: function(id) { return `${id}/delete/`; },
+            detail: function(id) { return `${id}/detail/`; }
+        },
+        formFields: [
+            { 
+                name: 'allergy', 
+                label: 'Allergy', 
+                type: 'text',
+                required: true 
+            },
+            { 
+                name: 'reaction', 
+                label: 'Reaction', 
+                type: 'text',
+                required: true 
+            },
+            { 
+                name: 'is_active', 
+                label: 'Active', 
+                type: 'checkbox',
+                required: false 
+            }
+        ]
+    });
+});
+</script>
+{% endblock %}

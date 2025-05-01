@@ -4,18 +4,18 @@ from patient_management.models.medication_model import Medication
 
 class MedicationForm(forms.ModelForm):
     FORM_CHOICES = [
-        ('tablet', 'Tablet'),
-        ('capsule', 'Capsule'),
-        ('liquid', 'Liquid'),
-        ('injection', 'Injection'),
-        ('inhaler', 'Inhaler'),
-        ('patch', 'Patch'),
-        ('other', 'Other')
+        ('Tablet', 'Tablet'),
+        ('Capsule', 'Capsule'),
+        ('Injection', 'Injection'),
+        ('Cream', 'Cream'),
+        ('Ointment', 'Ointment'),
+        ('Suspension', 'Suspension'),
+        ('Other', 'Other')
     ]
 
     form_of_medication = forms.ChoiceField(
         choices=FORM_CHOICES,
-        required=False,
+        required=True,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
@@ -82,7 +82,7 @@ class MedicationForm(forms.ModelForm):
         self.fields['prescribed_by'].required = False
         self.fields['end_date'].required = False
         self.fields['strength'].required = False
-        self.fields['form_of_medication'].required = False
+        self.fields['form_of_medication'].required = True
         self.fields['instructions'].required = False
         self.fields['is_active'].required = False
         # Set initial value for is_active

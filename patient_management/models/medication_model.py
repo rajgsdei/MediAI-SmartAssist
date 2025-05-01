@@ -26,7 +26,7 @@ class Medication(models.Model):
     deleted_on = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        db_table = 'patient_medication'  # This sets the collection name in MongoDB
+        db_table = 'medications'  # This sets the collection name in MongoDB
 
     def __str__(self):
         return f"{self.name} ({self.dosage})"

@@ -101,11 +101,10 @@ class SharedCRUD {
         this.options.formFields.forEach(field => {
             // Create column div
             const colDiv = document.createElement('div');
-            colDiv.className = field.type === 'checkbox' ? 'col-12' : 'col-md-6'; // Full width for checkbox, half for others
+            colDiv.className = field.type === 'checkbox' ? 'col-12' : 'col-md-6';
     
             // Create form group
             const formGroup = document.createElement('div');
-            //formGroup.className = field.type === 'checkbox' ? 'form-check mb-3' : 'form-group mb-3';
             formGroup.className = field.type === 'checkbox' ? 'form-group top-margin' : 'form-group top-margin';
     
             // Label
@@ -116,11 +115,36 @@ class SharedCRUD {
             if (field.required) {
                 label.innerHTML += ' <span class="text-danger">*</span>';
             }
-    
-            // Input
-            const input = document.createElement('input');
-            input.type = field.type || 'text';
-            input.className = field.type === 'checkbox' ? 'form-check-input' : 'form-control';
+
+            let input;
+            if (field.type === 'select') {
+                // Create select element for dropdown
+                input = document.createElement('select');
+                input.className = 'form-control';
+                
+                // Add default empty option if not required
+                if (!field.required) {
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = '-- Select --';
+                    input.appendChild(defaultOption);
+                }
+                
+                // Add all options from field.options
+                field.options.forEach(option => {
+                    const optionEl = document.createElement('option');
+                    optionEl.value = option.value;
+                    optionEl.textContent = option.label;
+                    input.appendChild(optionEl);
+                });
+            } else {
+                // Create regular input for other types
+                input = document.createElement('input');
+                input.type = field.type || 'text';
+                input.className = field.type === 'checkbox' ? 'form-check-input' : 'form-control';
+            }
+
+            // Set common attributes
             input.id = field.name;
             input.name = field.name;
             input.required = field.required || false;
@@ -134,9 +158,7 @@ class SharedCRUD {
                 formGroup.appendChild(input);
             }
     
-            // Add form group to column
             colDiv.appendChild(formGroup);
-            // Add column to container
             formFieldsContainer.appendChild(colDiv);
         });
     }

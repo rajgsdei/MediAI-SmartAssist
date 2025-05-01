@@ -1,5 +1,7 @@
 from django.urls import path
 
+from patient_management.views.allergy_views import AllergyView
+from patient_management.views.insurance_view import InsuranceView
 from patient_management.views.medication_views import MedicationView
 from patient_management.views.user_management_views import load_sidebar
 from ..views import patient_views, staff_views
@@ -18,4 +20,14 @@ urlpatterns = [
     path('medications/<uuid:medication_id>/detail/', MedicationView.as_view(), name='medication_detail'),
     path('medications/<uuid:medication_id>/update/', MedicationView.as_view(), name='medication_update'),
     path('medications/<uuid:medication_id>/delete/', MedicationView.as_view(), name='medication_delete'),
+
+    path('allergies/', AllergyView.as_view(), name='allergies'),
+    path('allergies/<uuid:allergy_id>/detail/', AllergyView.as_view(), name='allergy_detail'),
+    path('allergies/<uuid:allergy_id>/update/', AllergyView.as_view(), name='allergy_update'),
+    path('allergies/<uuid:allergy_id>/delete/', AllergyView.as_view(), name='allergy_delete'),
+
+    path('insurance/', InsuranceView.as_view(), name='insurance'),
+    path('insurance/<uuid:insurance_id>/detail/', InsuranceView.as_view(), name='insurance_detail'),
+    path('insurance/<uuid:insurance_id>/update/', InsuranceView.as_view(), name='insurance_update'),
+    path('insurance/<uuid:insurance_id>/delete/', InsuranceView.as_view(), name='insurance_delete'),
 ]

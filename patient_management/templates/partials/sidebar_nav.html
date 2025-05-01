@@ -8,10 +8,17 @@
     <ul class="sidebar-nav">
         {% if user.is_superuser %}
         <li class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
-            <a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Admin Dashboard</a>
         </li>
         <li class="{% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">
             <a href="{% url 'user_management' %}"><i class="fas fa-users"></i> Users</a>
+        </li>
+        {% else %}
+        <li class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> User Dashboard</a>
+        </li>
+        <li class="{% if 'patient' in request.path %}active{% endif %}">
+            <a href="{% url 'patient_management' %}"><i class="fas fa-users"></i> Patient Management</a>
         </li>
         <li class="{% if request.resolver_match.url_name == 'appointments' %}active{% endif %}">
             <a href=""><i class="fas fa-calendar"></i> Appointments</a>
@@ -19,17 +26,15 @@
         <li class="{% if request.resolver_match.url_name == 'medical_records' %}active{% endif %}">
             <a href=""><i class="fas fa-file-medical"></i> Medical Records</a>
         </li>
-        {% else %}
-        <li class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-            <a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a>
-        </li>
-        <li class="{% if 'patient' in request.path %}active{% endif %}">
-            <a href="{% url 'patient_management' %}"><i class="fas fa-users"></i> Patient Management</a>
-        </li>
-        {% endif %}
         <li class="{% if 'medication' in request.path %}active{% endif %}">
             <a href="{% url 'medication' %}"><i class="fas fa-users"></i> Medication</a>
         </li>
+        <li class="{% if 'allergies' in request.path %}active{% endif %}">
+            <a href="{% url 'allergies' %}"><i class="fas fa-users"></i> Allergies</a>
+        </li>
+        <li class="{% if 'insurance' in request.path %}active{% endif %}">
+            <a href="{% url 'insurance' %}"><i class="fas fa-users"></i> Insurance </a>
+        </li>
+        {% endif %}
     </ul>
 </div>
-
