@@ -18,5 +18,9 @@ class MedicalHistory(models.Model):
     is_active = models.BooleanField(default=True)
     deleted_on = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        db_table = 'medical_history'
+        ordering = ['-created_at']
+
     def __str__(self):
         return f"{self.condition} - {self.status}"

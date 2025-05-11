@@ -22,13 +22,13 @@ class PatientForm(forms.ModelForm):
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'gender': forms.Select(attrs={'class': 'form-control'}),
-            'medical_history': forms.Textarea(attrs={'rows': 4, 'class': 'form-control'}),
+            'medical_history': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
             'address': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'doctor': forms.Select(attrs={'class': 'form-control'}),
+            'doctor': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
             'insurance': forms.Select(attrs={'class': 'form-control'}),
-            'medications': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
-            'allergies': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+            'medications': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
+            'allergies': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
         }
 
     def __init__(self, *args, **kwargs):

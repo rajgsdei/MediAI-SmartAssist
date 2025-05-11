@@ -15,6 +15,7 @@ urlpatterns = [
     path('patients/<uuid:patient_id>/delete/', patient_views.delete_patient, name='delete_patient'),
     path('load_sidebar/', load_sidebar, name='load_sidebar'),
     path('dashboard/', patient_views.dashboard, name='dashboard'),
+    path('create-medical-history/', patient_views.create_medical_history, name='create_medical_history'),
   
     path('medications/', MedicationView.as_view(), name='medication'),
     path('medications/<uuid:medication_id>/detail/', MedicationView.as_view(), name='medication_detail'),

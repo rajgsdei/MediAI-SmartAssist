@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
 
+from patient_management.forms.patient.medical_history_form import MedicalHistoryForm
 from patient_management.forms.patient.patient_form import PatientForm
 from patient_management.models.auth_user_model import MediAIUser
+from patient_management.models.medical_history_model import MedicalHistory
 from ..models.patient_model import Patient
 from ..models.insurance_model import Insurance
 from ..models.medication_model import Medication
@@ -69,25 +71,25 @@ def create_patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
         if form.is_valid():
-            patient = form.save(commit=False)
-            patient.is_active = True 
-            patient.save()
-
-            form.save_m2m()
-
-            messages.success(request, 'Patient created successfully.')
+            form.save()
+            messages.success(request, "Patient created successfully!")
             return redirect('patient_management')
     else:
         form = PatientForm()
 
+    medical_history_form = MedicalHistoryForm()  # Instantiate the MedicalHistoryForm
+
     doctors = MediAIUser.objects.all()
+    medical_histories = MedicalHistory.objects.all()
     insurances = Insurance.objects.all()
     medications = Medication.objects.all()
     allergies = Allergy.objects.all()
 
     return render(request, 'patient/create_patient.html', {
         'form': form,
+        'medical_history_form': medical_history_form,  # Pass the form to the template
         'doctors': doctors,
+        'medical_histories': medical_histories,
         'insurances': insurances,
         'medications': medications, 
         'allergies': allergies, 
@@ -143,3 +145,15 @@ def delete_patient(request, patient_id):
         return redirect('patient_management')
     
     return redirect('patient_management')
+
+
+@login_required
+def create_medical_history(request):
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST)
+        if form.is_valid():
+            medical_history = form.save()
+            return JsonResponse({'id': medical_history.id, 'condition': medical_history.condition})
+        return JsonResponse({'error': form.errors}, status=400)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
