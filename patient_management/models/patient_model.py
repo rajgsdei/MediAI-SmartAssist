@@ -28,11 +28,11 @@ class Patient(models.Model):
     is_active = models.BooleanField(default=True)
     deleted_on = models.DateTimeField(null=True, blank=True)
 
-    doctor = models.ManyToManyField(MediAIUser, default=list)  
+    doctor = models.ForeignKey(MediAIUser, on_delete=models.SET_NULL, null=True, blank=True)  # Single doctor selection
     medications = models.ManyToManyField(Medication, default=list)  
     medical_history = models.ManyToManyField(MedicalHistory, default=list) 
     allergies = models.ManyToManyField(Allergy, default=list)  
-    insurance = models.ManyToManyField(Insurance, default=list)
+    insurance = models.ForeignKey(Insurance, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         db_table = 'patient'

@@ -74,25 +74,27 @@ def create_patient(request):
             form.save()
             messages.success(request, "Patient created successfully!")
             return redirect('patient_management')
+        else:
+            print("Form errors:", form.errors) 
     else:
         form = PatientForm()
 
-    medical_history_form = MedicalHistoryForm()  # Instantiate the MedicalHistoryForm
+    medical_history_form = MedicalHistoryForm()
 
-    doctors = MediAIUser.objects.all()
+    doctors = MediAIUser.objects.all()  # Fetch all doctors
     medical_histories = MedicalHistory.objects.all()
-    insurances = Insurance.objects.all()
+    insurances = Insurance.objects.all()  # Fetch all insurances
     medications = Medication.objects.all()
     allergies = Allergy.objects.all()
 
     return render(request, 'patient/create_patient.html', {
         'form': form,
-        'medical_history_form': medical_history_form,  # Pass the form to the template
+        'medical_history_form': medical_history_form,
         'doctors': doctors,
         'medical_histories': medical_histories,
         'insurances': insurances,
-        'medications': medications, 
-        'allergies': allergies, 
+        'medications': medications,
+        'allergies': allergies,
     })
 
 @login_required
@@ -116,22 +118,27 @@ def edit_patient(request, patient_id):
 @login_required
 def view_patient(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
+
+    # Construct patient details dictionary
     patient_details = {
-        'Full Name': patient.full_name,
+        'First Name': patient.first_name,
+        'Last Name': patient.last_name,
         'Date of Birth': patient.date_of_birth,
-        'Gender': patient.get_gender_display(),
-        'Phone': patient.phone_number,
+        'Gender': patient.gender,
+        'Phone Number': patient.phone_number,
         'Email': patient.email,
         'Address': patient.address,
-        'Medical History': patient.medical_history,
-        'Created At': patient.created_at,
-        'Last Updated': patient.updated_at,
-        'Active': patient.is_active,
+        'Medical History': ', '.join([str(history) for history in patient.medical_history.all()]) if patient.medical_history.exists() else 'None',
+        'Doctor': patient.doctor.first_name + ' ' + patient.doctor.last_name if patient.doctor else 'None',
+        'Insurance': patient.insurance.policy_name if patient.insurance else 'None',  # Use the correct field name
+        'Medications': ', '.join([str(medication) for medication in patient.medications.all()]) if patient.medications.exists() else 'None',
+        'Allergies': ', '.join([str(allergy) for allergy in patient.allergies.all()]) if patient.allergies.exists() else 'None',
+        'Is Active': patient.is_active,
     }
-    
+
     return render(request, 'patient/view_patient.html', {
         'view_patient': patient,
-        'patient_details': patient_details
+        'patient_details': patient_details,
     })
 
 @login_required

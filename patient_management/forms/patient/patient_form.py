@@ -1,5 +1,6 @@
 from django import forms
 from patient_management.models.patient_model import Patient
+from patient_management.models.auth_user_model import MediAIUser
 
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -12,27 +13,25 @@ class PatientForm(forms.ModelForm):
             'phone_number', 
             'email', 
             'address', 
-            'medical_history', 
-            'is_active',
             'doctor', 
-            'insurance',
+            'insurance', 
+            'medical_history', 
             'medications',
             'allergies',
+            'is_active',
         ]
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'gender': forms.Select(attrs={'class': 'form-control'}),
-            'medical_history': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
             'address': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'doctor': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
-            'insurance': forms.Select(attrs={'class': 'form-control'}),
-            'medications': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
-            'allergies': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Updated
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Filter the doctor field to include only users with the role of "Doctor"
+        self.fields['doctor'].queryset = MediAIUser.objects.filter(role='Doctor')
+        
         # Add form-control class to all fields except checkbox
         for field in self.fields:
             if field != 'is_active' and 'class' not in self.fields[field].widget.attrs:

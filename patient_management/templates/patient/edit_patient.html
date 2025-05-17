@@ -14,7 +14,7 @@
         <div class="card-body">
             <form method="POST">
                 {% csrf_token %}
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
@@ -105,6 +105,31 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="doctor">Doctor</label>
+                            {{ form.doctor|add_class:"form-control" }}
+                            {% if form.doctor.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.doctor.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="insurance">Insurance</label>
+                            {{ form.insurance|add_class:"form-control" }}
+                            {% if form.insurance.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.insurance.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-12">
                         <div class="form-group mb-3">
                             <label for="medical_history">Medical History</label>
@@ -112,6 +137,31 @@
                             {% if form.medical_history.errors %}
                                 <div class="invalid-feedback d-block">
                                     {{ form.medical_history.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="medications">Medications</label>
+                            {{ form.medications|add_class:"form-control" }}
+                            {% if form.medications.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.medications.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="allergies">Allergies</label>
+                            {{ form.allergies|add_class:"form-control" }}
+                            {% if form.allergies.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.allergies.errors }}
                                 </div>
                             {% endif %}
                         </div>
@@ -150,4 +200,4 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

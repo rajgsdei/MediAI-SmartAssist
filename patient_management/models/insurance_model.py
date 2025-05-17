@@ -18,6 +18,7 @@ class Insurance(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     deleted_on = models.DateTimeField(null=True, blank=True)
+    policy_name = models.CharField(null=True, max_length=255)
 
     class Meta:
         db_table = 'insurance'

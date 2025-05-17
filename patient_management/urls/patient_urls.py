@@ -1,6 +1,7 @@
 from django.urls import path
 
 from patient_management.views.allergy_views import AllergyView
+from patient_management.views.appointment_views import AppointmentView
 from patient_management.views.insurance_view import InsuranceView
 from patient_management.views.medication_views import MedicationView
 from patient_management.views.user_management_views import load_sidebar
@@ -31,4 +32,8 @@ urlpatterns = [
     path('insurance/<uuid:insurance_id>/detail/', InsuranceView.as_view(), name='insurance_detail'),
     path('insurance/<uuid:insurance_id>/update/', InsuranceView.as_view(), name='insurance_update'),
     path('insurance/<uuid:insurance_id>/delete/', InsuranceView.as_view(), name='insurance_delete'),
+
+    path('appointments/', AppointmentView.as_view(), name='appointment'),
+    path('appointments/<uuid:appointment_id>/detail/', AppointmentView.as_view(), name='appointment_update'),
+    path('appointments/<uuid:appointment_id>/delete/', AppointmentView.as_view(), name='appointment_delete'),
 ]
