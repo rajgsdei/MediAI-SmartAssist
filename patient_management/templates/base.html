@@ -34,12 +34,13 @@
                     <nav>
                         <ul class="nav-links">
                             {% if user.is_authenticated %}
-                            {% if user.is_superuser %}
-                            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-                            {% else %}
-                            <li><a href="{% url 'home' %}">Home</a></li>
-                            <li><a href="{% url 'patient_management' %}">Patients</a></li>
-                            {% endif %}
+                                {% if user.is_superuser %}
+                                    <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'home' %}">Home</a></li>
+                                    <li><a href="{% url 'patient_management' %}">Patients</a></li>
+                                    <li><a href="{% url 'ai_chat' %}">Medi-AI Assistant</a></li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                     </nav>
@@ -54,7 +55,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><div class="dropdown-item">Hi, {{ user.first_name|default:user.username }}
                                 <span class="text-muted">
-                                    (Loggin As: {% if user.is_superuser %}Admin{% else %}Staff{% endif %})
+                                    (Logged-in as: {% if user.is_superuser %}Admin{% else %}Staff{% endif %})
                                 </span>
                             </div></li>
                             <li><hr class="dropdown-divider"></li>

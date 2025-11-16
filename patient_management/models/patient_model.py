@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-from jsonfield import JSONField
 
 from patient_management.models.allergy_model import Allergy
 from patient_management.models.auth_user_model import MediAIUser

@@ -1,5 +1,6 @@
 from django.urls import path
 
+from patient_management.views import ai_chat_views
 from patient_management.views.allergy_views import AllergyView
 from patient_management.views.appointment_views import AppointmentView
 from patient_management.views.insurance_view import InsuranceView
@@ -36,4 +37,6 @@ urlpatterns = [
     path('appointments/', AppointmentView.as_view(), name='appointment'),
     path('appointments/<uuid:appointment_id>/detail/', AppointmentView.as_view(), name='appointment_update'),
     path('appointments/<uuid:appointment_id>/delete/', AppointmentView.as_view(), name='appointment_delete'),
+
+    path('ai-chat/', ai_chat_views.AIChatView.as_view(), name='ai_chat'),
 ]
